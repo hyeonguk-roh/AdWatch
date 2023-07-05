@@ -1,15 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
 using GoogleMobileAds;
 using GoogleMobileAds.Api;
+
 using TMPro;
 
 public class RewardedAds : MonoBehaviour
 {
     public TMP_Text points;
     private int point;
+
+    private int haveWatched = 0;
 
     public void Start()
     {
@@ -19,11 +26,18 @@ public class RewardedAds : MonoBehaviour
             // This callback is called once the MobileAds SDK is initialized.
         });
 
-        if (PlayerPrefs.HasKey("pointValue")) {
-            point = PlayerPrefs.GetInt("pointValue");
+        if (PlayerPrefs.HasKey("PointValue")) {
+            point = PlayerPrefs.GetInt("PointValue");
         } else {
             point = 0;
-            PlayerPrefs.SetInt("pointValue", point);
+            PlayerPrefs.SetInt("PointValue", point);
+        }
+
+        if (PlayerPrefs.HasKey("HaveWatched")) {
+            haveWatched = PlayerPrefs.GetInt("HaveWatched");
+        } else {
+            haveWatched = 0;
+            PlayerPrefs.SetInt("HaveWatched", haveWatched);
         }
     }
 
@@ -78,7 +92,6 @@ public class RewardedAds : MonoBehaviour
                 rewardedAd = ad;
             });
         ShowRewardedAd();
-        rewardedAd.Destroy();
     }
 
     public void ShowRewardedAd()
@@ -93,8 +106,13 @@ public class RewardedAds : MonoBehaviour
                 // TODO: Reward the user.
                 Debug.Log(String.Format(rewardMsg, reward.Type, reward.Amount));
                 point++;
-                PlayerPrefs.SetInt("pointValue", point);
+                PlayerPrefs.SetInt("PointValue", point);
                 PlayerPrefs.SetString("points", point.ToString());
+                if (haveWatched == 0) {
+                    haveWatched++;
+                    PlayerPrefs.SetInt("HaveWatched", haveWatched);
+                }
+                
             });
         }
     }

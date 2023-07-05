@@ -12,17 +12,39 @@ public class MainMenu : MonoBehaviour
 
     private int clickedSettings = 0;
     private TMP_Text settingsDialogue; 
+    private int totalMarks;
+
+    public GameObject dream;
+    public GameObject otherSide;
+    public GameObject itsName;
+    public GameObject submitName;
 
     public void Start() {
         settingsDialogue = dialogue.GetComponent<TMP_Text>();
+
+        if (PlayerPrefs.HasKey("clickedSettings")) {
+            clickedSettings = PlayerPrefs.GetInt("clickedSettings");
+        } else {
+            PlayerPrefs.SetInt("clickedSettings", clickedSettings);
+        }
+
     }
 
     public void StartGame() {
-        SceneManager.LoadScene("Home");
-    }
+        totalMarks = PlayerPrefs.GetInt("Dreaming") + PlayerPrefs.GetInt("OtherSide");
 
-    public void ReturnToTitle() {
-        SceneManager.LoadScene("Title");
+        if (totalMarks == 0) {
+            SceneManager.LoadScene("Home");
+        }
+        if (totalMarks == 1) {
+            if (PlayerPrefs.GetInt("Dreaming") == 1) {
+                SceneManager.LoadScene("Dreaming");
+            }
+            else if (PlayerPrefs.GetInt("OtherSide") == 1) {
+                SceneManager.LoadScene("OtherSide");
+            }
+        }
+        SceneManager.LoadScene("Error");
     }
 
     public void ExitGame() {
@@ -33,22 +55,32 @@ public class MainMenu : MonoBehaviour
         if (clickedSettings == 0) {
             settingsDialogue.text = "I would like to apologize... I got a bit lazy so there are no settings. The settings button does not work. No need to push it again.";
             clickedSettings++;
+            PlayerPrefs.SetInt("clickedSettings", clickedSettings);
         }
         else if (clickedSettings == 1) {
             settingsDialogue.text = "I think you are a little confused. There are NO settings. This button does not function. Move on. You still got a whole new ad watching experience waiting for you.";
             clickedSettings++;
+            PlayerPrefs.SetInt("clickedSettings", clickedSettings);
         }
         else if (clickedSettings == 2) {
             settingsDialogue.text = "Come on... this isn't even that intricate of an app. You literally push a button and watch an ad. I realy don't think you need settings for this.";
             clickedSettings++;
+            PlayerPrefs.SetInt("clickedSettings", clickedSettings);
         }
         else if (clickedSettings == 3) {
             settingsDialogue.text = "Ok fine. I'll give you the settings menu. Have fun tinkering with your buttons and sliders. You'll just be wasting your time";
             clickedSettings++;
+            PlayerPrefs.SetInt("clickedSettings", clickedSettings);
         }
         else {
             dialogue.SetActive(false);
             settings.SetActive(true);
+            if (PlayerPrefs.GetInt("HaveWatched") > 0) {
+                dream.SetActive(true);
+                otherSide.SetActive(true);
+                itsName.SetActive(true);
+                submitName.SetActive(true);
+            }
         }
     }
 }
