@@ -44,7 +44,10 @@ public class MainMenu : MonoBehaviour
                 SceneManager.LoadScene("OtherSide");
             }
         }
-        SceneManager.LoadScene("Error");
+        if (totalMarks > 1) {
+            SceneManager.LoadScene("Error");
+        }
+        
     }
 
     public void ExitGame() {
@@ -55,17 +58,17 @@ public class MainMenu : MonoBehaviour
         if (clickedSettings == 0) {
             settingsDialogue.text = "I would like to apologize... I got a bit lazy so there are no settings. The settings button does not work. No need to push it again.";
             clickedSettings++;
-            PlayerPrefs.SetInt("clickedSettings", clickedSettings);
+            
         }
         else if (clickedSettings == 1) {
             settingsDialogue.text = "I think you are a little confused. There are NO settings. This button does not function. Move on. You still got a whole new ad watching experience waiting for you.";
             clickedSettings++;
-            PlayerPrefs.SetInt("clickedSettings", clickedSettings);
+            
         }
         else if (clickedSettings == 2) {
-            settingsDialogue.text = "Come on... this isn't even that intricate of an app. You literally push a button and watch an ad. I realy don't think you need settings for this.";
+            settingsDialogue.text = "Come on... this isn't even that intricate of an app. You literally push a button and watch an ad. I really don't think you need settings for this.";
             clickedSettings++;
-            PlayerPrefs.SetInt("clickedSettings", clickedSettings);
+            
         }
         else if (clickedSettings == 3) {
             settingsDialogue.text = "Ok fine. I'll give you the settings menu. Have fun tinkering with your buttons and sliders. You'll just be wasting your time";

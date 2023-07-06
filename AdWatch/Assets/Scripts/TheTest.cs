@@ -162,9 +162,13 @@ public class TheTest : MonoBehaviour
     }
 
     public void SubmitTest() {
-        if (volume.value == keyOne && sensitivity.value == keyTwo && itsName.text == theName) {
+        if (itsName.text == theName) {
             animator.SetBool("OpenedDoor", true);
             Debug.Log("Opened Door!!");
         }
+    }
+
+    public void EnterTheDoor(){
+        SceneManager.LoadScene("ItIsHere");
     }
 }
